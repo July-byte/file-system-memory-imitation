@@ -64,4 +64,56 @@ def touch(self, file_name: str, content: str = "") -> str:
   self.current_dir.add_child(new_file)
   return f"File '{file_name}'created"
 
-def
+def ls(self) -> str:
+  if not self.current_dir.children:
+    return "<empty>"
+  output = []
+  for name, node in self.current_dir.children.items():
+    kind = "[DIR] " if node.is_directory else "[FILE]"
+    size_str = f" ({node.size()} bytes)" if isinstance(node, File) else ""
+    output.append(f"{kind} {name}{size_str}")
+  return "\n".join(output)
+
+def cd(self, path: str) ->:
+  if path == "/":
+    self.current_dir = self.root
+    return ""
+  if path == "..":
+    if self.current_dir.parent:
+      delf.current_dir = self.current_dir.parent
+    return ""
+
+  if path in self.current_dir.children:
+    node = self.current_dir.children[path]
+    if node.is_directory:
+      self.current_dir = node
+      return ""
+    return f"Error: '{path}' is a file, not a directory"
+  return f"Error: Directory '{path}' not found"
+
+def cat(self, file_name: str) ->str:
+  if file_name not in self.current_dir.children:
+    return f"Error: File '{file_name}' not found"
+  node = self.current_dir.children[file_name]
+  if node.is_directory:
+    return f"Error: '{file_name}' is a directory"
+  return node.content
+
+def rm(self, name: str) -> str:
+  if name not in self.current_dir.children:
+    return f"Error: '{name}'"
+
+def find(self, name: str, start_node: Optional[Directory] = None) -> List[str]:
+  """Рекурсивный поиск файла или папки по названию"""
+  if start_node is None:
+    start_node = self.root
+  results = []
+  for child_name, child_node in start_node.children.items():
+    if name in child_name:
+      results.append(child_node.get_path())
+    if child_node.is_directory:
+      results.extend(self.find(name, child_node))
+    return results
+
+def main():
+  
