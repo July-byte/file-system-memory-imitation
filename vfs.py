@@ -116,4 +116,8 @@ def find(self, name: str, start_node: Optional[Directory] = None) -> List[str]:
     return results
 
 def main():
+  vfs = VirtualFileSystem()
+  print("== PyVFS: Virtual File System in Memory ===")
+  print("Available commands: mkdir, touch, ls, cd, cat, rm, find, pwd, help, exit\n")
+  
   
