@@ -119,5 +119,73 @@ def main():
   vfs = VirtualFileSystem()
   print("== PyVFS: Virtual File System in Memory ===")
   print("Available commands: mkdir, touch, ls, cd, cat, rm, find, pwd, help, exit\n")
+
+  while True:
+    prompt_path = vfs.current_dir.get_path()
+    try:
+      user_input= input(f"vfs:{prompt_path}$").strip()
+    except (KeyboardIntterrupt, EOFErroe):
+      print("\nExiting VFS.")
+      break
+
+  if not user_input:
+    continue
+
+  parts = user_input.split(maxsplit=2)
+  cmd = parts[0].lower()
+  args = parts[1:]
+
+  if cmd == "exit":
+    print("Goodbye!")
+    break
+  elif cmd == "pwd":
+    print(vfs.current_dir.get_path())
+  elif cmd == "ls":
+    print(vfs.ls())
+  elif cmd == "mkdir":
+    if args:
+      print(vfs.mkdir(args[0]))
+    else:
+      print("Usage: mkdir <directory_name>")
+  elif cmd == "touch":
+    if args:
+      content = args[1] if len(args) > 1 else ""
+      print(vfs.touch(args[0], content))
+    else:
+      print("Usage: touch <file_name> [content]")
+  elif cmd == "cd":
+    if args:
+      res = vfs.cd(args[0])
+      if res:
+        print(res)
+      else:
+        print("Usage: cd <path>")
+  elif cmd == "cat":
+    if args:
+      print(vfs.cat(args[0]))
+    else:
+      print("Usage: cat <file_name>")
+  elif cmd == "rm":
+    if args:
+      print(vfs.rm(args[0]))
+    else:
+      print("Usage: rm <name>")
+  elif cmd == "find":
+    if args:
+      matches = vfs.find(args[0])
+      if matches:
+        print("\n".join(matches))
+      else:
+        print("No matches found")
+    else:
+      print("Usage: find <search_term>")
+  elif cmd == "help":
+    print("Commands: mkdir <name>, touch <file> [text], ls, cd, <dir>, cat <file>, rm <name>, find <term>, pwd, exit")
+  else:
+    print("Unknown command: '{cmd}'. Type 'help' for available commands.")
+
+if __name__ == "__main__":
+  main()
+    
   
   
