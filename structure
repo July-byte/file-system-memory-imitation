@@ -1,0 +1,11 @@
+vfs-python/
+|- vfs/
+|   |-__init__.py
+|   |- models.py
+|   |- core.py
+|   |-cli.py
+|- tests/
+    |- test_vfs.py
+|- redme.md
+|- main.py
+|- state.json
